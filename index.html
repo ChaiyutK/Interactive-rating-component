@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Interactive rating component</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Overpass:wght@400;700&display=swap');
+    body{
+      font-family: 'Overpass', sans-serif;
+      font-size: 15px;
+      background-color: hsl(216, 12%, 8%);
+    }
+    .rating-box{
+      display: flex;
+      box-sizing: border-box;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .rating-box-thankyou{
+      display: flex;
+      box-sizing: border-box;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .show{
+      display: flex;
+    }
+    .close{
+      display: none;
+    }
+    .rating-star{
+      margin-top: 20px;
+      margin-left: 20px;
+      padding: 10px;
+      background-color: hsl(213, 19%, 18%);
+      border-radius: 50%;
+    }
+    .rating-thankyou-image
+    {
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+    .item{
+      border-radius: 5%;
+      display: block;
+      box-sizing: border-box;
+      width: 375px;
+      background-color: #19202a;
+    }
+    .item-flexcenter{
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+    .rating-header{
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      padding-left: 20px;
+    }
+    .rating-thankyou-header{
+      font-size: 25px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0;
+    }
+    .rating-content{
+      padding-left: 20px;
+      padding-right: 20px;
+      color: hsl(217, 12%, 63%);
+    }
+    .rating-thankyou-content{
+      text-align: center;
+      color: hsl(217, 12%, 63%);
+      width: 90%;
+      padding-bottom: 35px;
+    }
+    ul{
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+    }
+    .rating-listbox{
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    ul li{
+      margin-right: 25px;
+      background-color: #262d37;
+      padding: 12px 18px;
+      border-radius: 50%;
+      text-align: center;
+      color: hsl(217, 12%, 63%);
+    }
+    .rating-showpoint{
+      background-color: #262d37;
+      color: hsl(25, 97%, 53%);
+      padding: 10px 15px;
+      border-radius: 20px;
+    }
+    ul li.active{
+      background-color:hsl(217, 12%, 63%);
+      color:white;
+    }
+    ul li:hover{
+      background-color: hsl(25, 97%, 53%);
+      color: white;
+    }
+    ul li:last-child{
+      margin-right: 0px;
+    }
+    .rating-button{
+      display: flex;
+      width: 100%;
+    }
+    button{
+      margin: 10px auto 20px;
+      width: 80%;
+      border-radius: 20px;
+      border-color: hsl(25, 97%, 53%);
+      height: 40px;
+      background-color: hsl(25, 97%, 53%);
+      font-weight: 400;
+      color: white;
+    }
+    button:hover{
+      background-color: white;
+      color: hsl(25, 97%, 53%);
+      border-color: white;
+    }
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+ 
+
+  <!-- Rating state start -->
+<div class="rating-box" id="rating-box">
+  <div class="item">
+    <img class="rating-star" src="images/icon-star.svg" alt="star icon">
+    <p class="rating-header">How did we do?</p>
+    <p class="rating-content">Please let us know how we did with your support request. All feedback is appreciated 
+      to help us improve our offering!
+    </p>
+  <div class="rating-listbox">
+    <ul class="rating-list">
+      <li onclick="changecolor(this.id)" id="1">1</li>
+      <li onclick="changecolor(this.id)" id="2">2</li>
+      <li onclick="changecolor(this.id)" id="3">3</li>
+      <li onclick="changecolor(this.id)" id="4">4</li>
+      <li onclick="changecolor(this.id)" id="5">5</li>
+    </ul>
+  </div>
+    <div class="rating-button">
+      <button onclick="submitRate()">SUBMIT</button>
+    </div>
+  </div>
+</div>
+<!--rating box after submit rate-->
+<div class="rating-box-thankyou close" id="rating-box-thankyou">
+  <div class="item">
+    <div class="item-flexcenter">
+    <img class="rating-thankyou-image" src="images/illustration-thank-you.svg" alt="thank-you">  
+    </div>
+    <div class="item-flexcenter">
+    <p class="rating-showpoint" id="show-point">You selected out of 5</p>
+    </div>
+    <div class="item-flexcenter">
+    <p class="rating-thankyou-header">Thank you!</p>
+    </div>
+    <div class="item-flexcenter">
+    <p class="rating-thankyou-content"> We appreciate you taking the time to give a rating. If you ever need more support, don’t hesitate to get in touch!</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let rating = 0;
+  function changecolor(id)
+  {
+    for(var i=1;i<=5;i++)
+    {
+      document.getElementById(i).classList.remove('active');
+    }
+    const pageElement = document.getElementById(id);
+    pageElement.classList.add('active');
+    rating = id;
+  }
+
+  function submitRate(){
+    document.getElementById("rating-box").classList.add('close');
+    document.getElementById("rating-box-thankyou").classList.remove('close');
+    document.getElementById("rating-box-thankyou").classList.add('show');
+    document.getElementById("show-point").innerHTML = `You selected ${rating} out of 5`;
+  }
+</script>
+  
+
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="https://github.com/ChaiyutK">Chaiyut Kongprawat</a>.
+  </div>
+</body>
+</html>
